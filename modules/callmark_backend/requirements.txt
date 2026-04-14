@@ -1,0 +1,11 @@
+jupyterlab
+flask
+flask-cors
+librosa
+matplotlib
+scikit-image
+pydub
+pandas
+numpy==1.26.4
+toml
+PyYAML

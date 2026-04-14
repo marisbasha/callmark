@@ -1,0 +1,12 @@
+librosa
+ipywidgets
+matplotlib==3.7.3
+moviepy
+streamlit
+plotly
+streamlit-elements
+streamlit-autorefresh
+requests
+pandas
+numpy
+soundfile

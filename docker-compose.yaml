@@ -1,0 +1,158 @@
+services:
+
+  whisperseg:
+    restart: unless-stopped
+    runtime: nvidia
+    build:
+      context: ./modules/whisperseg
+      dockerfile: Dockerfile.whisperseg
+    image: whisperseg
+    volumes:
+      - ${PWD}/${DATA_FOLDER}:/app/data
+      - ${PWD}/${MODEL_FOLDER}:/app/model
+    environment:
+      PYTHONUNBUFFERED: 1  # Add this to fix logging
+      PYTHONIOENCODING: utf-8
+    ports:
+      - ${WHISPERSEG_PORT}:8080
+    hostname: whisperseg_service
+    profiles:
+      - gpu
+    networks:
+      - app-network
+    # Add GPU healthcheck
+    healthcheck:
+      test: ["CMD-SHELL", "nvidia-smi || exit 1"]
+      start_period: 30s
+      interval: 60s      # Check every minute
+      timeout: 10s
+      retries: 2         # Restart after 2 consecutive failures
+    labels:
+      - autoheal=true
+      - autoheal.stop.timeout=10  # Give more time for graceful shutdown
+
+  whisperseg_streamlit_app:
+    restart: unless-stopped
+    build:
+      context: ./modules/whisperseg
+      dockerfile: Dockerfile.streamlit
+    image: whisperseg_streamlit_app
+    environment:
+      PYTHONUNBUFFERED: 1  # Add this to fix logging
+      PYTHONIOENCODING: utf-8
+      WHISPERSEG_SERVICE: http://whisperseg_service:8080
+      CALLMARK_BACKEND_SERVICE: http://callmark_backend_service:8080
+    ports:
+      - ${WHISPERSEG_STREAMLIT_PORT}:8081
+    hostname: whisperseg_streamlit_app
+    depends_on:
+      - whisperseg
+    profiles:
+      - gpu
+    networks:
+      - app-network
+
+  callmark_backend:
+    restart: unless-stopped
+    build: ./modules/callmark_backend
+    image: callmark_backend
+
+    environment:
+      WHISPERSEG_SERVICE: http://whisperseg_service:8080
+      VOCALLBASE_SERVICE: ${VOCALLBASE_SERVICE}
+      FREQUENCY_ANNOTATION_SERVICE: http://frequency_annotation_service:8080
+      WHISPERSEG_USER_CONFIG_FILE: /app/config.yaml
+      PYTHONUNBUFFERED: 1
+      PYTHONIOENCODING: utf-8
+
+    volumes:
+      - ${PWD}/${WHISPERSEG_USER_CONFIG_FILE}:/app/config.yaml
+      - ${PWD}/${CALLMARK_BACKEND_DATA_FOLDER}:/app/data
+
+    ports:
+      - ${CALLMARK_BACKEND_PORT}:8080
+
+    shm_size: "2gb"
+
+    deploy:
+      resources:
+        limits:
+          memory: 64g
+          cpus: "8.0"
+        reservations:
+          memory: 8g
+
+    hostname: callmark_backend_service
+    profiles:
+      - cpu
+      - gpu
+    networks:
+      - app-network
+
+
+  callmark_frontend:
+    restart: unless-stopped
+    build: ./modules/callmark_frontend
+    image: callmark_frontend
+    environment:
+      VITE_BACKEND_SERVICE_ADDRESS: ${CALLMARK_BACKEND_SERVICE}/
+      NODE_ENV: ${NODE_ENV}
+    ports:
+      - ${CALLMARK_FRONTEND_PORT}:5050
+    hostname: callmark_frontend_service
+    profiles:
+      - cpu
+      - gpu
+    networks:
+      - app-network
+
+  streamlit_frequency_annotation:
+    restart: unless-stopped
+    build: ./modules/streamlit_frequency_annotation
+    image: streamlit_frequency_annotation
+    environment:
+      CALLMARK_FRONTEND_SERVICE: ${CALLMARK_FRONTEND_SERVICE}
+      VOCALLBASE_SERVICE: ${VOCALLBASE_SERVICE}
+    ports:
+      - ${FREQUENCY_ANNOTATION_PORT}:8081
+    hostname: frequency_annotation_service
+    profiles:
+      - cpu
+      - gpu
+    networks:
+      - app-network
+
+  streamlit_example_figure_plot:
+    restart: unless-stopped
+    build: ./modules/streamlit_example_figure_plot
+    image: streamlit_example_figure_plot
+    environment:
+      VOCALLBASE_SERVICE: ${VOCALLBASE_SERVICE}
+    ports:
+      - ${EXAMPLE_FIGURE_PLOT_PORT}:8081
+    hostname: example_figure_plot_service
+    profiles:
+      - cpu
+      - gpu
+    networks:
+      - app-network
+
+  # Add autoheal service
+  autoheal:
+    image: willfarrell/autoheal
+    environment:
+      - AUTOHEAL_CONTAINER_LABEL=all
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+    profiles:
+      - gpu  # Only run with GPU profile since that's where the issue occurs
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+    name: ${NETWORK_NAME:-callmark-app-network-prod}
+
+        

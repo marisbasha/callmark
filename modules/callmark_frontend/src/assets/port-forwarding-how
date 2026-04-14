@@ -1,0 +1,24 @@
+Steps to set up remote port forwarding from local server to Google Cloud VM:
+
+Create firewall rule in Google Cloud Console:
+
+VPC network → Firewall
+Name: allow-port-5050
+Direction: Ingress
+Source: 0.0.0.0/0
+TCP port: 5050
+
+
+On Google VM:
+
+sudo nano /etc/ssh/sshd_config
+ 
+ Add: GatewayPorts yes
+
+sudo systemctl restart ssh
+
+From local server, run:
+
+gcloud compute ssh --zone "ZONE NAME" "INSTANCE NAME" --project "PROJECT NAME" -- -R 0.0.0.0:5050:localhost:5050
+
+Access your app via [VM-IP]:5050

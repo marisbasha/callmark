@@ -1,0 +1,825 @@
+/* -------------------------- General -------------------------- */
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #051923;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+
+  height: 100%;
+}
+
+/* Hide vertical scrollbar for Chrome, Edge, Safari and Opera */
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* Hide vertical scrollbar for IE */
+body {
+  -ms-overflow-style: none;
+}
+
+/* Hide vertical scrollbar for Firefox */
+html, body {
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+html, body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  user-select: none;
+}
+
+/* #overview-time-axis-container{
+  position: fixed;
+  top: 100px;
+  z-index: 2;
+  margin: 0 0 0 200px;
+  height: 86px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+} */
+
+/* This is the "header" space where place the SpeciesMenu, overview bar and global controls */
+#blank-space{
+  position: fixed;
+  /* z-index: 1; */
+  width: 100%;
+  height: 200px;
+  background: #051923;
+}
+
+.hidden{
+  display: none;
+}
+
+/* -------------------------- Track -------------------------- */
+
+.track-container{
+  display: flex;
+  padding: 0 0 0px 0;
+  margin: 0 0 0px 0;
+  border-bottom: 5px double #082536;
+}
+
+.hidden-track-container{
+  display: flex;
+  padding: 0 0 2px 0;
+  margin: 0 0 2px 0;
+  border-bottom: 5px double #082536;
+  height: 36.5px;
+  align-items: center;
+  font-size: 14px;
+}
+
+.side-window{
+  display: grid;
+  grid-template-columns: 160px 40px;
+  grid-template-rows: 180px auto;
+  grid-template-areas:
+    "track-controls waveform-buttons-frequencies-canvas-container"
+    "individuals-canvas individuals-canvas";
+}
+
+.show-track-file-upload-container{
+  display: flex;
+}
+
+.track-controls{
+  grid-area: track-controls;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.audio-controls{
+  display: flex;
+  justify-content: center;
+  background-color: #082536;
+  border-radius: 30px;
+}
+
+.waveform-buttons-frequencies-canvas-container{
+  grid-area: waveform-buttons-frequencies-canvas-container;
+}
+
+.waveform-buttons{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 40px;
+}
+
+.frequencies-canvas{
+  display: block;
+  /*height: 145px;*/
+}
+
+.individuals-canvas{
+  grid-area: individuals-canvas;
+  display: block;
+}
+
+/* Compact mode when waveform is hidden */
+.side-window-small{
+  display: grid;
+  grid-template-columns: 160px 40px;
+  grid-template-rows: 120px auto;
+  grid-template-areas:
+    "track-controls waveform-buttons-frequencies-canvas-container"
+    "individuals-canvas individuals-canvas";
+}
+
+.track-controls-small{
+  grid-area: track-controls;
+  display: flex;
+  flex-direction: column;
+  max-height: 150px;
+}
+
+.frequencies-canvas-small{
+  display: block;
+  height: 120px;
+}
+
+/* -------------------------- Overview Window -------------------------- */
+
+#left-scroll-overview-btn{
+  /* position: fixed; */
+  /* top: 110px; */
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid #ffffff;
+  border-left: transparent;
+  /*cursor: pointer;*/
+  background: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+#left-scroll-overview-btn:active {
+  border-right: 10px solid #ddd8ff;
+}
+
+#right-scroll-overview-btn{
+  /* position: fixed; */
+  /* top: 110px; */
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #ffffff;
+  border-right: transparent;
+  /*cursor: pointer;*/
+  background: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+#right-scroll-overview-btn:active {
+  border-left: 10px solid #ddd8ff;
+}
+
+
+/* -------------------------- Global Controls -------------------------- */
+
+#zoom-scroll-buttons-container{
+  display: flex;
+  align-items: center;
+  background: #082536;
+  padding: 10px 5px;
+  border-radius: 30px;
+}
+
+#settings-download-submit-container{
+  margin: 8px 7px;
+}
+
+#left-scroll-btn{
+  margin: 0 10px 0 0;
+  width: 0;
+  height: 0;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-right: 14px solid #ffffff;
+  border-left: transparent;
+  background: none;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+#left-scroll-btn:hover {
+  border-right: 14px solid whitesmoke;
+}
+
+#left-scroll-btn:active {
+  border-right: 14px solid #b2c0d5;
+}
+
+#right-scroll-btn{
+  margin: 0 0 0 10px;
+  width: 0;
+  height: 0;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 14px solid #ffffff;
+  border-right: transparent;
+  background: none;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+#right-scroll-btn:hover {
+  border-left: 14px solid whitesmoke;
+}
+
+#right-scroll-btn:active {
+  border-left: 14px solid #ddd8ff;
+}
+
+/* -------------------------- Colorwheel -------------------------- */
+
+.colorwheel{
+  position: fixed;
+  z-index: 4;
+}
+
+/* -------------------------- Annotated Area Button -------------------------- */
+
+/* #annotated-area-button-container{
+  position: absolute;
+  z-index: 3;
+  top: 159px;
+  left: 0;
+} */
+
+/* -------------------------- Global Config Window -------------------------- */
+
+#global-config-window{
+  position: fixed;
+  top: 20%;
+  left: 40%;
+  z-index: 4;
+  width: 400px;
+  /* height: 220px; */
+  border: 2px solid #ffffff;
+  border-radius: 5px;
+  background: #082536;
+}
+
+#global-config-window-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 380px;
+  height: 180px;
+  padding: 7px 10px;
+}
+
+.global-config-window-label{
+  display: flex;
+  justify-content: space-between;
+  margin: 3px 0;
+}
+
+.global-config-window-label > input{
+  max-width: 100px;
+}
+
+#global-config-default-values-btn-container{
+  display: flex;
+  justify-content: space-between;
+}
+
+#global-config-default-values-btn{
+  max-width: 108px;
+  font-size: 10px;
+}
+
+#global-config-window-buttons-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+#global-config-submit-btn{
+  min-height: 40px;
+  min-width: 108px;
+  font-size: 16px;
+}
+
+
+/* -------------------------- Local Parameters -------------------------- */
+
+/* .local-parameters-config-panel{
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  z-index: 4;
+  width: 300px;
+  height: auto;
+  border: 2px solid #ffffff;
+  border-radius: 0px;
+  background: #082536;
+}
+
+.local-config-window-label{
+  display: flex;
+  justify-content: space-between;
+  margin: 7px 7px 0;
+}
+
+.frequencies-labels-container{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin: 20px 0 20px 0;
+}
+
+.local-config-window-buttons-container{
+  display: flex;
+  justify-content: space-between;
+  margin: 7px 7px 7px;
+}
+
+.local-parameters-window-content > div > label > input{
+  max-width: 60px;
+} */
+
+/* -------------------------- SpeciesMenu -------------------------- */
+
+#species-menu-container{
+  /* position: fixed; */
+  z-index: 4;
+  width: 100%;
+  background: #051923;
+}
+
+#species-menu{
+  /* max-height: 95px; */
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.species{
+  background-color: #082536;
+  margin: 1px 7px 0;
+  padding: 2px 5px;
+  border: 1px solid #f6fffe;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.individual-btn-container, .clustername-btn-container{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.individual-btn, .clustername-btn{
+  background-color: #626262;
+  display: flex;
+  margin: 2px;
+  border-radius: 2px;
+  font-size: 12px;
+  max-height: 20px;
+  box-shadow: 3px 2px 4px 0 rgba(0,0,0,0.75);
+  cursor: pointer;
+}
+
+.individual-btn[isactive='true']{
+  background-image: linear-gradient(to bottom right, #0095ff, #ff00f2, yellow);
+}
+
+.clustername-btn[isactive='true']{
+}
+
+.clustername-btn-name, .individual-btn-name{
+  padding: 0 30px;
+}
+
+.clustername-btn-name[isactive='true']{
+  border-left: 1px solid black;
+}
+
+.colorwheel-btn, .edit-name-btn{
+  background-color: #f6fffe;
+  border: none;
+  border-left: 1px solid black;
+  border-radius: 2px;
+  font-size: 12px;
+}
+
+.colorwheel-btn:hover, .edit-name-btn:hover{
+  background-color: whitesmoke;
+}
+
+.input-window{
+  position: fixed;
+  top: 40%;
+  left: 40%;
+  z-index: 3;
+  width: 300px;
+  height: 160px;
+  border: 2px solid #ffffff;
+  border-radius: 5px;
+  background: #082536;
+}
+
+.input-window-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 280px;
+  height: 90px;
+  padding: 7px 10px;
+}
+
+.input-field{
+  outline: none;
+  height: 25px;
+}
+
+.input-window-submit-btn{
+  width: 60px;
+  height: 20px;
+  align-self: flex-end;
+  margin-top: 5px;
+}
+
+.input-window-cancel-btn{
+  width: 60px;
+  align-self: flex-start;
+  margin-left: 10px;
+}
+
+/* -------------------------- Individual Canvas Clustername Selection-------------------------- */
+
+.hover-button {
+  background-color: #575757;
+  color: white;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.hover-button:hover {
+  background-color: #929597d5;
+}
+
+
+/* -------------------------- Label Window -------------------------- */
+.label-window{
+  background: #051923;
+  border: 2px solid #ffffff;
+  border-radius: 5px;
+  overflow-y: scroll;
+}
+
+.label-window-content{
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 12px;
+  font-weight: bold;
+  margin-left: 12px
+}
+
+.label-window-controls-container{
+  display: flex;
+  align-items: center;
+  margin: 7px;
+}
+
+.label-window-audio-btn{
+  display: flex;
+  align-items: center;
+  height: 18px;
+  width: fit-content;
+  margin: 2px;
+  padding: 2px;
+  background-color: #082536;
+  border-radius: 10%;
+  cursor: pointer;
+}
+
+.label-window-audio-btn:hover{
+  background-color: #0a2b3f;
+}
+
+.label-window-icon-btn{
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  width: fit-content;
+  background-color: #082536;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.label-window-species{
+  background-color: #082536;
+  padding: 7px;
+  margin: 0 5px 5px;
+  border: 1px solid #f6fffe;
+  border-radius: 5px;
+}
+
+.label-window-individual-btn-container, .label-window-clustername-btn-container{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.label-window-individual-btn, .label-window-clustername-btn{
+  background-color: #626262;
+  display: flex;
+  margin: 2px;
+  padding: 0 2px;
+  border-radius: 2px;
+  font-size: 12px;
+  font-weight: bold;
+  max-height: 24px;
+  box-shadow: 3px 2px 4px 0 rgba(0,0,0,0.75);
+  cursor: pointer;
+}
+
+.label-window-individual-btn[isactive='true']{
+  background-image: linear-gradient(to bottom right, #0095ff, #ff00f2, yellow);
+}
+
+.label-window-frequencies-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin: 5px;
+  padding: 7px 12px 7px 5px;
+  background-color: #082536;
+  border-radius: 10px;
+}
+
+.label-window-frequencies-labels-container{
+  display: flex;
+  flex-direction: column;
+  margin: 0 4px 0 0;
+}
+
+.label-window-frequencies-label{
+  display: flex;
+  justify-content: space-between;
+  width: 140px;
+}
+
+.label-window-frequencies-label > input{
+  max-width: 60px;
+}
+
+
+/* -------------------------- Close Window Bar -------------------------- */
+
+.close-btn-container{
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: flex-start;
+  background: #ffffff;
+}
+
+.close-btn{
+  margin: 0;
+  background: #ffffff;
+  padding: 0 5px;
+  border: none;
+  color: black;
+}
+
+.window-header{
+  color: #051923;
+  margin: 0;
+  font-size: 15px;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.close-btn:hover{
+  background: #ea1414;
+  color: white;
+}
+
+/* -------------------------- WhisperSeg -------------------------- */
+
+.models-window{
+  border: 2px solid #ffffff;
+  border-radius: 5px;
+  background: #082536;
+}
+
+.models-window-header{
+  position: sticky;
+  top: 0;
+}
+
+.models-header-tabs-container{
+  display: flex;
+  justify-content: space-evenly;
+  background: #082536;
+}
+
+.models-header-tab{
+  width: 100%;
+  text-align: center;
+  padding: 5px;
+}
+
+.models-header-tab-opened{
+  width: 100%;
+  text-align: center;
+  padding: 5px;
+  background: #0e495b;
+}
+
+.models-header-tab:hover{
+  background-color: #0d3249;
+}
+
+.models-container{
+  height: 87%;
+  padding: 15px 5px 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.models-table{
+  table-layout: fixed;
+}
+
+.models-table > thead{
+  display: block;
+}
+
+.models-table > tbody{
+  display: block;
+  height: 300px;
+  overflow-y: auto;
+}
+
+.models-table-header-1, .cell1{
+  text-align: left;
+  width: 36vw;
+}
+
+.models-table-header-2, .models-table-header-3, .cell2, .cell3{
+  text-align: left;
+  width: 7vw;
+}
+
+.models-form{
+  display: flex;
+  padding: 10px 5px;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.models-form-input-fields{
+  display: flex;
+  flex-direction: column;
+}
+
+.models-form-input-fields > label{
+  display: flex;
+  justify-content: space-between;
+}
+
+.draggable-container-models-window{
+  position: fixed;
+  top: 30%;
+  left: 25%;
+  z-index: 4;
+}
+
+/* -------------------------- Waveform-, Spectrogram- and Labels-Canvases -------------------------- */
+
+.waveform-spec-labels-canvases-container{
+  position: relative;
+  z-index: 0;
+}
+
+.waveform-canvas{
+  display: block;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+.spec-canvas{
+  display: block;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+.label-canvas{
+  display: block;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+
+
+.models-window-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.auth-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(13, 17, 23, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.auth-container {
+  background: #1a1f24;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  width: 300px;
+}
+
+.auth-container h3 {
+  color: #e6edf3;
+  margin-bottom: 1.5rem;
+}
+
+.auth-input {
+  padding: 0.5rem;
+  margin: 1rem 0;
+  width: 100%;
+  background: #2d333b;
+  border: 1px solid #444c56;
+  border-radius: 4px;
+  color: #e6edf3;
+}
+
+.auth-button {
+  padding: 0.5rem 1rem;
+  background: #4184e4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.auth-button:hover {
+  background: #5295f0;
+}
+
+.content-blur {
+  filter: blur(4px);
+}
+
+
+.auth-close-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: transparent;
+  border: none;
+  color: #e6edf3;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.auth-close-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.auth-container {
+  position: relative;
+}

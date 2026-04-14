@@ -1,0 +1,67 @@
+users:
+  sharedd6218114:
+    info: A shared user account for unregistered users
+    inference: true
+    train: true
+    is_admin: false
+  3bc46ef99e57:
+    info: ""
+    inference: true
+    train: true
+    is_admin: true
+  b71ea6dbd456:
+    info: yuhang, Zebra Finch Lab
+    inference: true
+    train: true
+    is_admin: false
+  8635ff15f60e:
+    info: Joseph Mine, Orca (Clicks)
+    inference: true
+    train: true
+    is_admin: false
+  977eae4daceb:
+    info: Gallot Quentin, Olive Colobus
+    inference: true
+    train: true
+    is_admin: false
+  7a399be74d7e:
+    info: Winter School Test User, Winter School
+    inference: true
+    train: true
+    is_admin: false
+  a91ebe6aa905:
+    info: XueQian-Neural-Science-course, Neural-Science-course
+    inference: true
+    train: false
+    is_admin: false
+  b1639fe25eed:
+    info: Melissa, Judith, Marmoset
+    inference: true
+    train: true
+    is_admin: false
+  027fc4f236df:
+    info: Pascale, Richard Group, Orca
+    inference: true
+    train: true
+    is_admin: false
+  836b89ezd183:
+    info: Ian Mehli, Richard Group
+    inference: true
+    train: true
+    is_admin: false
+  9gh384tg6hhb:
+    info: Gagan Narula
+    inference: true
+    train: true
+    is_admin: false
+  r5zbvn898shv:
+    info: Megan Wyman, Meerkat Group
+    inference: true
+    train: true
+    is_admin: false
+  b3bf96ef2e56:
+    info: Test User
+    inference: true
+    train: true
+    is_admin: false
+
